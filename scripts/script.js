@@ -43,7 +43,14 @@ var plannerEntries = [
   },
 ];
 
-function getLocalStorageTimeSlots() {}
+function getLocalStorageTimeSlots() {
+  var retrievedEntries = JSON.parse(localStorage.getItem("plannerEntries"));
+  if (retrievedEntries != null) {
+    plannerEntries = retrievedEntries;
+  }
+}
+
+getLocalStorageTimeSlots();
 
 function timeSlotLabel(timeIn24hr) {
   var label;
@@ -77,7 +84,9 @@ $(function () {
       <div class="col-2 col-md-1 hour text-center py-3">${timeSlotLabel(
         entry.timeSlot
       )}</div>
-      <textarea class="col-8 col-md-10 description" rows="3"> </textarea>
+      <textarea class="col-8 col-md-10 description" rows="3">${
+        entry.text
+      }</textarea>
       <button class="btn saveBtn col-2 col-md-1" aria-label="save">
         <i class="fas fa-save" aria-hidden="true"></i>
       </button>
@@ -87,9 +96,9 @@ $(function () {
 
   $("#timeSlots").html(timeSlots);
 
-  $(".time-block").click(function (event) {
-    console.log("CLICKY CLICKITY ", event.target);
-    console.log("CLICKY CLICKITY ", $(this).index());
+  $(".time-block").click(function () {
+    plannerEntries[$(this).index()].text = $(this).find("textarea").val();
+    localStorage.setItem("plannerEntries", JSON.stringify(plannerEntries));
   });
 
   // TODO: Add a listener for click events on the save button. This code should
