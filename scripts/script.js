@@ -53,14 +53,17 @@ getLocalStorageTimeSlots();
 
 // utility function for creating time slot hour labels
 function timeSlotLabel(timeIn24hr) {
-  var label;
-  if (timeIn24hr > 12) {
-    label = `${timeIn24hr - 12}PM`;
-  } else {
-    label = `${timeIn24hr}AM`;
+  var suffix = "AM";
+  var hour = timeIn24hr;
+
+  if (timeIn24hr >= 12) {
+    suffix = "PM";
+    if (timeIn24hr > 12) {
+      hour = timeIn24hr - 12;
+    }
   }
 
-  return label;
+  return `${hour}${suffix}`;
 }
 
 // utility function for assigning the correct class to the timeslot for styling.
